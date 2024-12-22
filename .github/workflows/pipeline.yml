@@ -25,5 +25,4 @@ jobs:
           CI: true
         run: |
           npm run start-prod &
-          npm run wait-on http://localhost:5000
           npm run test:e2e
