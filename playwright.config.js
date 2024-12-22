@@ -6,7 +6,7 @@ module.exports = defineConfig({
   testDir: './e2e-tests',
   testMatch: '**/*.spec.jsx',
   use: {
-    baseURL: 'http://localhost:8080/',
+    baseURL: 'http://localhost:5000/',
     headless: true,
     viewport: { width: 1280, height: 720 },
   },
