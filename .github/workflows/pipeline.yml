@@ -4,25 +4,36 @@ on:
   push:
     branches:
       - main
+
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
+      
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      
       - name: Install dependencies 
         run: npm install  
+      
       - name: Check style
         run: npm run eslint
-      - name: build
+      
+      - name: Build
         run: npm run build
-      - name: test
+      
+      - name: Run unit tests
         run: npm run test
-      - name: e2e tests
+      
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+      
+      - name: Run E2E tests
         env:
           CI: true
         run: |
           npm run start-prod &
+          npx wait-on http://localhost:5000
           npm run test:e2e
