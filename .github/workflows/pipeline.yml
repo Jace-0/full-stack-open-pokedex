@@ -81,26 +81,28 @@ jobs:
   Build_Notification:
     needs: [simple_deployment_pipeline, tag_release]
     runs-on: ubuntu-latest
-
+  
     steps:
       - name: Notify Success
         if: success() # Runs only if the previous steps succeed
         uses: rjstone/discord-webhook-notify@v1
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "🎉 Build Success! New version deployed on branch ${{ github.ref_name }}."
+          severity: info
+          description: "🎉 Build Success! New version deployed on branch ${{ github.ref_name }}."
           username: "Build Bot"
           avatarUrl: "https://example.com/success-avatar.png"
-
+  
       - name: Notify Failure
         if: failure() # Runs only if the previous steps fail
         uses: rjstone/discord-webhook-notify@v1
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          message: |
+          severity: error
+          description: |
             ❌ Build Failed!
             Commit: ${{ github.sha }}
             Author: ${{ github.actor }}
-            Error: Check the logs for details.
+          details: "Check the logs for more details."
           username: "Build Bot"
           avatarUrl: "https://example.com/failure-avatar.png"
