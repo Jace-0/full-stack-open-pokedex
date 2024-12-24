@@ -37,3 +37,10 @@ jobs:
           npm run start-prod &
           npx wait-on http://localhost:5000
           npm run test:e2e
+          
+      - name: Deploy to Render
+        if: success()
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
