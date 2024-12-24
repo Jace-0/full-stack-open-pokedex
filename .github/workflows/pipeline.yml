@@ -85,17 +85,17 @@ jobs:
     steps:
       - name: Notify Success
         if: success() # Runs only if the previous steps succeed
-        uses: rjstone/discord-webhook-notify@v1
+        uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           severity: info
           description: "🎉 Build Success! New version deployed on branch ${{ github.ref_name }}."
-          username: "Build Bot"
+          username: "GitHub"
           avatarUrl: "https://example.com/success-avatar.png"
   
       - name: Notify Failure
         if: failure() # Runs only if the previous steps fail
-        uses: rjstone/discord-webhook-notify@v1
+        uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           severity: error
@@ -104,5 +104,5 @@ jobs:
             Commit: ${{ github.sha }}
             Author: ${{ github.actor }}
           details: "Check the logs for more details."
-          username: "Build Bot"
+          username: "GitHub"
           avatarUrl: "https://example.com/failure-avatar.png"
