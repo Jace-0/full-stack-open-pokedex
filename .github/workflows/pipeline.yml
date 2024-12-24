@@ -43,7 +43,7 @@ jobs:
           npm run test:e2e
           
       - name: Deploy to Render
-        if: success()
+        if: ${{ github.event_name == 'push' && success() }}
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
