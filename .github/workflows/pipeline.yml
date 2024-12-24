@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
   pull_request:
     branches: [main]
     types: [opened, synchronize]
@@ -14,26 +14,26 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
-      - name: Install dependencies 
-        run: npm install  
-      
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Check style
         run: npm run eslint
-      
+
       - name: Build
         run: npm run build
-      
+
       - name: Run unit tests
         run: npm run test
-      
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
-      
+
       - name: Run E2E tests
         env:
           CI: true
@@ -41,7 +41,7 @@ jobs:
           npm run start-prod &
           npx wait-on http://localhost:5000
           npm run test:e2e
-          
+
       - name: Deploy to Render
         if: success()
         uses: johnbeynon/render-deploy-action@v0.0.8
