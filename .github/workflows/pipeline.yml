@@ -8,10 +8,14 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-
+env:
+  # This checks if any commit message contains #skip
+  DEPLOY_CONDITION: ${{ !contains(join(github.event.commits.*.message, ' '), '#skip') }}
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
+    # Only run deployment if we're on main branch and no #skip tag is present
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && env.DEPLOY_CONDITION == 'true' }}
     steps:
       - uses: actions/checkout@v4
       
@@ -52,7 +56,8 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]  # This makes it wait for the first job
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}  # Only run on pushes to main
+    # Use the same condition for version tagging
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && env.DEPLOY_CONDITION == 'true' }}  # Only run on pushes to main
     steps:
       - uses: actions/checkout@v3
         with:
