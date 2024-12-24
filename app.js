@@ -10,6 +10,9 @@ app.get('/version', (req, res) => {
 app.get('/health', (req, res) => {
   res.send('ok')
 })
+app.get('/ping', (req, res) => {
+  res.send('pong')
+})
 // get the port from env variable
 const PORT = process.env.PORT || 5000
 
