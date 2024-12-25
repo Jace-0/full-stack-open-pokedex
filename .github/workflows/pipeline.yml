@@ -86,7 +86,7 @@ jobs:
     steps:
       - name: Notify Success
         if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }} # Runs only if the previous steps succeed
-        uses: Ilshidur/action-discord@2.0.0
+        uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           severity: info
@@ -98,7 +98,7 @@ jobs:
   
       - name: Notify Failure
         if: ${{ failure() && github.event_name == 'push' && github.ref == 'refs/heads/main' }} # Runs only if the previous steps fail
-        uses: Ilshidur/action-discord@2.0.0
+        uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           severity: error
