@@ -87,24 +87,21 @@ jobs:
       - name: Notify Success
         if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }} # Runs only if the previous steps succeed
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: info
-          description: |
-            🎉 Build Success! 
+          args: |
+            😎 Build completed successfully!
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
-          username: "GitHub Actions"
   
       - name: Notify Failure
         if: ${{ failure() && github.event_name == 'push' && github.ref == 'refs/heads/main' }} # Runs only if the previous steps fail
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: error
-          description: |
+          args: |
             ❌ Build Failed!
+            Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
-            Author: ${{ github.actor }}
-          details: "View run for details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          username: "GitHub"
