@@ -1,21 +1,22 @@
 name: Health Check and Notifications
+
 on:
   schedule:
     # Runs every hour
-    - cron: '0 * * * *'
+    - cron: "0 * * * *"
 
 jobs:
   health_check:
     runs-on: ubuntu-latest
     steps:
       - name: Check application health
-        id: health_check  # Adding an ID so we can reference this step
+        id: health_check # Adding an ID so we can reference this step
         uses: jtalk/url-health-check-action@v4
         with:
           url: https://full-stack-open-pokedex-lygk.onrender.com
           max-attempts: 3
           retry-delay: 5s
-        continue-on-error: true  # This allows the workflow to continue to notification step even if health check fails
+        continue-on-error: true # This allows the workflow to continue to notification step even if health check fails
 
       - name: Notify Health Check Success
         if: steps.health_check.outcome == 'success'
